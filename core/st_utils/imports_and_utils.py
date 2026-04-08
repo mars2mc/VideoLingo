@@ -31,24 +31,29 @@ give_star_button = """
     .github-button {
         display: block;
         width: 100%;
-        padding: 0.5em 1em;
-        color: #144070;
-        background-color: #d0e0f2;
-        border-radius: 6px;
+        padding: 8px 16px;
+        color: #ffffff;
+        background-color: #1f1f1f;
+        border-radius: 9999px;
         text-decoration: none;
-        font-weight: bold;
+        font-weight: 700;
         text-align: center;
-        transition: background-color 0.3s ease, color 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1.4px;
+        font-size: 0.88rem;
+        transition: transform 0.1s ease, background-color 0.2s ease;
         box-sizing: border-box;
+        border: 1px solid #7c7c7c;
     }
     .github-button:hover {
-        background-color: #ffffff;
-        color: #144070;
+        background-color: #272727;
+        color: #ffffff;
+        transform: scale(1.02);
     }
 </style>
 <a href="https://github.com/Huanshere/VideoLingo" target="_blank" style="text-decoration: none;">
     <div class="github-button">
-        Star on GitHub 🌟
+        Star on GitHub
     </div>
 </a>
 """
@@ -57,62 +62,82 @@ button_style = """
 <style>
 div.stButton > button:first-child {
     display: block;
-    padding: 0.5em 1em;
-    color: #144070;
-    background-color: transparent;
+    padding: 8px 16px;
+    color: #ffffff;
+    background-color: #1f1f1f;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 700;
     text-align: center;
-    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    font-size: 0.88rem;
+    transition: all 0.15s ease;
     box-sizing: border-box;
-    border: 2px solid #D0DFF2;
-    font-size: 1.2em;
+    border: 1px solid #7c7c7c;
+    border-radius: 9999px;
 }
 div.stButton > button:hover {
-    background-color: transparent;
-    color: #144070;
-    border-color: #144070;
+    background-color: #272727;
+    color: #ffffff;
+    border-color: #b3b3b3;
 }
 div.stButton > button:active, div.stButton > button:focus {
-    background-color: transparent !important;
-    color: #144070 !important;
-    border-color: #144070 !important;
+    background-color: #1f1f1f !important;
+    color: #ffffff !important;
+    border-color: #b3b3b3 !important;
     box-shadow: none !important;
 }
 div.stButton > button:active:hover, div.stButton > button:focus:hover {
-    background-color: transparent !important;
-    color: #144070 !important;
-    border-color: #144070 !important;
+    background-color: #272727 !important;
+    color: #ffffff !important;
+    border-color: #b3b3b3 !important;
     box-shadow: none !important;
+}
+div.stButton > button[kind="primary"] {
+    background-color: #1ed760;
+    color: #000000;
+    border: none;
+    border-radius: 9999px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+}
+div.stButton > button[kind="primary"]:hover {
+    background-color: #1db954;
+    color: #000000;
+    transform: scale(1.03);
 }
 div.stDownloadButton > button:first-child {
     display: block;
-    padding: 0.5em 1em;
-    color: #144070;
-    background-color: transparent;
+    padding: 8px 16px;
+    color: #ffffff;
+    background-color: #1f1f1f;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 700;
     text-align: center;
-    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    font-size: 0.88rem;
+    transition: all 0.15s ease;
     box-sizing: border-box;
-    border: 2px solid #D0DFF2;
-    font-size: 1.2em;
+    border: 1px solid #7c7c7c;
+    border-radius: 9999px;
 }
 div.stDownloadButton > button:hover {
-    background-color: transparent;
-    color: #144070;
-    border-color: #144070;
+    background-color: #272727;
+    color: #ffffff;
+    border-color: #b3b3b3;
 }
 div.stDownloadButton > button:active, div.stDownloadButton > button:focus {
-    background-color: transparent !important;
-    color: #144070 !important;
-    border-color: #144070 !important;
+    background-color: #1f1f1f !important;
+    color: #ffffff !important;
+    border-color: #b3b3b3 !important;
     box-shadow: none !important;
 }
 div.stDownloadButton > button:active:hover, div.stDownloadButton > button:focus:hover {
-    background-color: transparent !important;
-    color: #144070 !important;
-    border-color: #144070 !important;
+    background-color: #272727 !important;
+    color: #ffffff !important;
+    border-color: #b3b3b3 !important;
     box-shadow: none !important;
 }
 </style>

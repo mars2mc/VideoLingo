@@ -9,7 +9,181 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 os.environ["PATH"] += os.pathsep + current_dir
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-st.set_page_config(page_title="VideoLingo", page_icon="docs/logo.svg")
+st.set_page_config(
+    page_title="VideoLingo",
+    page_icon="docs/logo.svg",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+
+SPOTIFY_CSS = """
+<style>
+/* ── Global base ── */
+.stApp {
+    background-color: #121212;
+}
+.stApp > header {
+    background-color: transparent;
+}
+
+/* ── Sidebar ── */
+[data-testid="stSidebar"] {
+    background-color: #121212;
+    border-right: 1px solid #1f1f1f;
+}
+[data-testid="stSidebar"] .stMarkdown, [data-testid="stSidebar"] label {
+    color: #b3b3b3;
+    font-size: 0.88rem;
+}
+[data-testid="stSidebar"] .stMarkdown p, [data-testid="stSidebar"] .stMarkdown span {
+    color: #b3b3b3;
+}
+
+/* ── Containers & cards ── */
+[data-testid="stSidebar"] [data-testid="stExpander"] {
+    background-color: #181818;
+    border-radius: 8px;
+    border: none;
+    box-shadow: rgba(0,0,0,0.3) 0px 8px 8px;
+}
+[data-testid="stSidebar"] [data-testid="stExpander"] summary {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.88rem;
+}
+[data-testid="stSidebar"] [data-testid="stExpander"] [data-testid="stExpanderDetails"] {
+    background-color: transparent;
+}
+
+/* ── Main content containers with border ── */
+[data-testid="stMainBlockContainer"] [data-testid="stVerticalBlock"] > [style*="border"] {
+    border-color: #1f1f1f !important;
+    background-color: #181818;
+    border-radius: 8px;
+}
+
+/* ── Inputs ── */
+.stTextInput > div > div > input {
+    background-color: #1f1f1f;
+    color: #ffffff;
+    border-radius: 500px;
+    border: none;
+    box-shadow: rgb(18,18,18) 0px 1px 0px, rgb(124,124,124) 0px 0px 0px 1px inset;
+}
+.stTextInput > div > div > input:focus {
+    border-color: #000000;
+    box-shadow: rgb(18,18,18) 0px 1px 0px, rgb(124,124,124) 0px 0px 0px 1px inset;
+}
+.stTextInput > div > label {
+    color: #b3b3b3;
+    font-size: 0.88rem;
+}
+
+/* ── Select boxes ── */
+.stSelectbox > div > div > div {
+    background-color: #1f1f1f;
+    color: #ffffff;
+    border-radius: 500px;
+    border: none;
+}
+.stSelectbox > div > label {
+    color: #b3b3b3;
+    font-size: 0.88rem;
+}
+
+/* ── Progress bar ── */
+.stProgress > div > div > div > div {
+    background-color: #1ed760;
+}
+
+/* ── Toggles ── */
+.stToggle button[aria-checked="true"] {
+    background-color: #1ed760;
+}
+
+/* ── Headings ── */
+h1, h2, h3 {
+    color: #ffffff;
+    font-weight: 700;
+}
+.stMarkdown h1, .stMarkdown h2, .stMarkdown h3 {
+    color: #ffffff;
+}
+
+/* ── Alert boxes ── */
+.stAlert {
+    border-radius: 8px;
+}
+div[data-testid="stAlert"] > div {
+    color: #ffffff;
+}
+
+/* ── Video player ── */
+.stVideo {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: rgba(0,0,0,0.5) 0px 8px 24px;
+}
+
+/* ── File uploader ── */
+[data-testid="stFileUploader"] {
+    border: 1px dashed #4d4d4d;
+    border-radius: 8px;
+    background-color: #181818;
+}
+
+/* ── Section text styling ── */
+.section-desc {
+    color: #b3b3b3;
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+
+/* ── Welcome text ── */
+.welcome-text {
+    color: #b3b3b3;
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+.welcome-text a {
+    color: #1ed760;
+    text-decoration: none;
+}
+.welcome-text a:hover {
+    text-decoration: underline;
+}
+
+/* ── Color picker ── */
+.stColorPicker > div > label {
+    color: #b3b3b3;
+    font-size: 0.88rem;
+}
+
+/* ── Toast notifications ── */
+.stToast {
+    background-color: #1f1f1f;
+    border-radius: 8px;
+    box-shadow: rgba(0,0,0,0.5) 0px 8px 24px;
+    color: #ffffff;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #121212;
+}
+::-webkit-scrollbar-thumb {
+    background: #4d4d4d;
+    border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #7c7c7c;
+}
+</style>
+"""
+st.markdown(SPOTIFY_CSS, unsafe_allow_html=True)
 
 SUB_VIDEO = "output/output_sub.mp4"
 DUB_VIDEO = "output/output_dub.mp4"
@@ -129,9 +303,9 @@ def text_processing_section():
     with st.container(border=True):
         st.markdown(
             f"""
-        <p style='font-size: 20px;'>
+        <p class="section-desc">
         {t("This stage includes the following steps:")}
-        <p style='font-size: 20px;'>
+        <p class="section-desc">
             1. {t("WhisperX word-level transcription")}<br>
             2. {t("Sentence segmentation using NLP and LLM")}<br>
             3. {t("Summarization and multi-step translation")}<br>
@@ -193,9 +367,9 @@ def audio_processing_section():
     with st.container(border=True):
         st.markdown(
             f"""
-        <p style='font-size: 20px;'>
+        <p class="section-desc">
         {t("This stage includes the following steps:")}
-        <p style='font-size: 20px;'>
+        <p class="section-desc">
             1. {t("Generate audio tasks and chunks")}<br>
             2. {t("Extract reference audio")}<br>
             3. {t("Generate and merge audio files")}<br>
@@ -238,13 +412,13 @@ def audio_processing_section():
 def main():
     logo_col, _ = st.columns([1, 1])
     with logo_col:
-        st.image("docs/logo.png", width="stretch")
+        st.image("docs/logo_dark_mode.png", width="stretch")
     st.markdown(button_style, unsafe_allow_html=True)
     welcome_text = t(
         'Hello, welcome to VideoLingo. If you encounter any issues, feel free to get instant answers with our Free QA Agent <a href="https://share.fastgpt.in/chat/share?shareId=066w11n3r9aq6879r4z0v9rh" target="_blank">here</a>! You can also try out our SaaS website at <a href="https://videolingo.io" target="_blank">videolingo.io</a> for free!'
     )
     st.markdown(
-        f"<p style='font-size: 20px; color: #808080;'>{welcome_text}</p>",
+        f'<p class="welcome-text">{welcome_text}</p>',
         unsafe_allow_html=True,
     )
     # add settings
