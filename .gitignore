@@ -174,3 +174,6 @@ runtime/
 dev/
 installer_files/
 logs/
+
+# Claude Code
+.claude/

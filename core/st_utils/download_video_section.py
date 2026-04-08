@@ -2,6 +2,7 @@ import os
 import re
 import shutil
 import subprocess
+from datetime import datetime
 from time import sleep
 
 import streamlit as st
@@ -50,7 +51,10 @@ def download_video_section():
                 if os.path.exists(OUTPUT_DIR):
                     shutil.rmtree(OUTPUT_DIR)
                 os.makedirs(OUTPUT_DIR, exist_ok=True)
-                
+
+                with open(os.path.join(OUTPUT_DIR, '.publish_date'), 'w') as f:
+                    f.write(datetime.now().strftime('%Y%m%d_%H%M%S'))
+
                 raw_name = uploaded_file.name.replace(' ', '_')
                 name, ext = os.path.splitext(raw_name)
                 clean_name = re.sub(r'[^\w\-_\.]', '', name) + ext.lower()

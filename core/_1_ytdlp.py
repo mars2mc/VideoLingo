@@ -2,6 +2,7 @@ import os,sys
 import glob
 import re
 import subprocess
+from datetime import datetime
 from core.utils import *
 
 def sanitize_filename(filename):
@@ -41,7 +42,16 @@ def download_video_ytdlp(url, save_path='output', resolution='1080'):
     # Get YoutubeDL class after updating
     YoutubeDL = update_ytdlp()
     with YoutubeDL(ydl_opts) as ydl:
-        ydl.download([url])
+        info = ydl.extract_info(url, download=True)
+        ts = info.get('timestamp')
+        if ts:
+            publish_date = datetime.fromtimestamp(ts).strftime('%Y%m%d_%H%M%S')
+        else:
+            upload_date = info.get('upload_date', '')
+            publish_date = str(upload_date) if upload_date else ''
+        if publish_date:
+            with open(os.path.join(save_path, '.publish_date'), 'w') as f:
+                f.write(publish_date)
     
     # Check and rename files after download
     for file in os.listdir(save_path):

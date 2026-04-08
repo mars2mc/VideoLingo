@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 from core.st_utils.imports_and_utils import *
 from core.utils.onekeycleanup import cleanup
 from core.utils import load_key
@@ -84,6 +85,8 @@ def process_input_file(file):
         input_file = os.path.join('batch', 'input', file)
         output_file = os.path.join(OUTPUT_DIR, file)
         shutil.copy(input_file, output_file)
+        with open(os.path.join(OUTPUT_DIR, '.publish_date'), 'w') as f:
+            f.write(datetime.now().strftime('%Y%m%d_%H%M%S'))
         video_file = output_file
     return {'video_file': video_file}
 

@@ -9,6 +9,15 @@ def cleanup(history_dir="history"):
     video_name = video_file.split("/")[1]
     video_name = os.path.splitext(video_name)[0]
     video_name = sanitize_filename(video_name)
+
+    # Append publish date to folder name if available
+    publish_date_file = os.path.join("output", ".publish_date")
+    if os.path.exists(publish_date_file):
+        with open(publish_date_file) as f:
+            publish_date = f.read().strip()
+        if publish_date:
+            video_name = f"{video_name}_{publish_date}"
+        os.remove(publish_date_file)
     
     # Create required folders
     os.makedirs(history_dir, exist_ok=True)
