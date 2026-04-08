@@ -1,13 +1,24 @@
 import os
 import io
 import json
+import ssl
 import time
 import requests
 import librosa
 import soundfile as sf
+from requests.adapters import HTTPAdapter
+from urllib3.util.ssl_ import create_urllib3_context
 from rich import print as rprint
 from core.utils import *
 from core.utils.models import *
+
+
+class TLS12Adapter(HTTPAdapter):
+    def init_poolmanager(self, *args, **kwargs):
+        ctx = create_urllib3_context()
+        ctx.minimum_version = ssl.TLSVersion.TLSv1_2
+        kwargs['ssl_context'] = ctx
+        return super().init_poolmanager(*args, **kwargs)
 
 OUTPUT_LOG_DIR = "output/log"
 def transcribe_audio_302(raw_audio_path: str, vocal_audio_path: str, start: float = None, end: float = None):
@@ -42,10 +53,14 @@ def transcribe_audio_302(raw_audio_path: str, vocal_audio_path: str, start: floa
     start_time = time.time()
     rprint(f"[cyan]🎤 Transcribing audio with language:  <{WHISPER_LANGUAGE}> ...[/cyan]")
     headers = {'Authorization': f'Bearer {load_key("whisper.whisperX_302_api_key")}'}
-    response = requests.request("POST", url, headers=headers, data=payload, files=files)
+    session = requests.Session()
+    session.mount('https://api.302.ai', TLS12Adapter())
+    response = session.post(url, headers=headers, data=payload, files=files)
     
     response_json = response.json()
-    
+    rprint(f"[yellow]API response keys: {list(response_json.keys())}[/yellow]")
+    rprint(f"[yellow]API response (first 500 chars): {str(response_json)[:500]}[/yellow]")
+
     if start is not None:
         for segment in response_json['segments']:
             segment['start'] += start

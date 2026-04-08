@@ -52,8 +52,8 @@ def main():
 
     # Port
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        if s.connect_ex(("127.0.0.1", 8501)) == 0:
-            warnings.append("Port 8501 in use. Close other app or use --server.port 8502")
+        if s.connect_ex(("127.0.0.1", 8502)) == 0:
+            warnings.append("Port 8502 in use. Close other app or use --server.port 8503")
 
     # Log everything
     for w in warnings:
