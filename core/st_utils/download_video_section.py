@@ -52,18 +52,20 @@ def download_video_section():
                     shutil.rmtree(OUTPUT_DIR)
                 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
+                publish_date = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
                 with open(os.path.join(OUTPUT_DIR, '.publish_date'), 'w') as f:
-                    f.write(datetime.now().strftime('%Y%m%d_%H%M%S'))
+                    f.write(publish_date)
 
                 raw_name = uploaded_file.name.replace(' ', '_')
                 name, ext = os.path.splitext(raw_name)
-                clean_name = re.sub(r'[^\w\-_\.]', '', name) + ext.lower()
-                    
-                with open(os.path.join(OUTPUT_DIR, clean_name), "wb") as f:
+                clean_name = re.sub(r'[^\w\-_\.]', '', name)
+                save_name = f"{clean_name} [{publish_date}]{ext.lower()}"
+
+                with open(os.path.join(OUTPUT_DIR, save_name), "wb") as f:
                     f.write(uploaded_file.getbuffer())
 
                 if ext.lower() in load_key("allowed_audio_formats"):
-                    convert_audio_to_video(os.path.join(OUTPUT_DIR, clean_name))
+                    convert_audio_to_video(os.path.join(OUTPUT_DIR, save_name))
                 st.rerun()
             else:
                 return False

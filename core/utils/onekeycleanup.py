@@ -1,5 +1,6 @@
 import os
 import glob
+import re
 from core._1_ytdlp import find_video_files
 import shutil
 
@@ -8,6 +9,8 @@ def cleanup(history_dir="history"):
     video_file = find_video_files()
     video_name = video_file.split("/")[1]
     video_name = os.path.splitext(video_name)[0]
+    # Strip the [date] suffix added during download
+    video_name = re.sub(r'\s*\[\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}\]$', '', video_name)
     video_name = sanitize_filename(video_name)
 
     # Append publish date to folder name if available
@@ -16,9 +19,9 @@ def cleanup(history_dir="history"):
         with open(publish_date_file) as f:
             publish_date = f.read().strip()
         if publish_date:
-            video_name = f"{video_name}_{publish_date}"
+            video_name = f"{video_name} [{publish_date}]"
         os.remove(publish_date_file)
-    
+
     # Create required folders
     os.makedirs(history_dir, exist_ok=True)
     video_history_dir = os.path.join(history_dir, video_name)

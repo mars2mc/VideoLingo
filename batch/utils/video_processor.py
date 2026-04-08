@@ -83,10 +83,12 @@ def process_input_file(file):
         video_file = _1_ytdlp.find_video_files()
     else:
         input_file = os.path.join('batch', 'input', file)
-        output_file = os.path.join(OUTPUT_DIR, file)
-        shutil.copy(input_file, output_file)
+        publish_date = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
         with open(os.path.join(OUTPUT_DIR, '.publish_date'), 'w') as f:
-            f.write(datetime.now().strftime('%Y%m%d_%H%M%S'))
+            f.write(publish_date)
+        name, ext = os.path.splitext(file)
+        output_file = os.path.join(OUTPUT_DIR, f"{name} [{publish_date}]{ext}")
+        shutil.copy(input_file, output_file)
         video_file = output_file
     return {'video_file': video_file}
 

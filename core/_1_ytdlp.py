@@ -45,7 +45,7 @@ def download_video_ytdlp(url, save_path='output', resolution='1080'):
         info = ydl.extract_info(url, download=True)
         ts = info.get('timestamp')
         if ts:
-            publish_date = datetime.fromtimestamp(ts).strftime('%Y%m%d_%H%M%S')
+            publish_date = datetime.fromtimestamp(ts).strftime('%Y-%m-%d_%H-%M-%S')
         else:
             upload_date = info.get('upload_date', '')
             publish_date = str(upload_date) if upload_date else ''
@@ -53,13 +53,25 @@ def download_video_ytdlp(url, save_path='output', resolution='1080'):
             with open(os.path.join(save_path, '.publish_date'), 'w') as f:
                 f.write(publish_date)
     
-    # Check and rename files after download
-    for file in os.listdir(save_path):
-        if os.path.isfile(os.path.join(save_path, file)):
+    # Sanitize and append publish date to filenames after download
+    if publish_date:
+        for file in os.listdir(save_path):
+            filepath = os.path.join(save_path, file)
+            if not os.path.isfile(filepath) or file.startswith('.'):
+                continue
             filename, ext = os.path.splitext(file)
             new_filename = sanitize_filename(filename)
-            if new_filename != filename:
-                os.rename(os.path.join(save_path, file), os.path.join(save_path, new_filename + ext))
+            new_filename = f"{new_filename} [{publish_date}]{ext}"
+            os.rename(filepath, os.path.join(save_path, new_filename))
+    else:
+        for file in os.listdir(save_path):
+            filepath = os.path.join(save_path, file)
+            if not os.path.isfile(filepath) or file.startswith('.'):
+                continue
+            filename, ext = os.path.splitext(file)
+            new_filename = sanitize_filename(filename) + ext
+            if new_filename != file:
+                os.rename(filepath, os.path.join(save_path, new_filename))
 
 def find_video_files(save_path='output'):
     video_files = [file for file in glob.glob(save_path + "/*") if os.path.splitext(file)[1][1:].lower() in load_key("allowed_video_formats")]
