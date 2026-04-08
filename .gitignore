@@ -166,6 +166,7 @@ batch/tasks_setting.xlsx
 /ffprobe
 .DS_Store
 AllinOne.ipynb
+config.yaml
 config.backup.yaml
 
 # runtime
