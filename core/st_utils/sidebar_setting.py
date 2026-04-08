@@ -226,6 +226,24 @@ def page_setting():
         if burn_subtitles != load_key("burn_subtitles"):
             update_key("burn_subtitles", burn_subtitles)
             st.rerun()
+
+        c1, c2 = st.columns(2)
+        with c1:
+            try:
+                src_default = load_key("subtitle.src_font_color")
+            except KeyError:
+                src_default = '#ffffff'
+            src_color = st.color_picker(t("Source Subtitle Color"), value=src_default)
+            if src_color != src_default:
+                update_key("subtitle.src_font_color", src_color)
+        with c2:
+            try:
+                trans_default = load_key("subtitle.trans_font_color")
+            except KeyError:
+                trans_default = '#ffff00'
+            trans_color = st.color_picker(t("Translation Subtitle Color"), value=trans_default)
+            if trans_color != trans_default:
+                update_key("subtitle.trans_font_color", trans_color)
     with st.expander(t("Dubbing Settings"), expanded=True):
         tts_methods = [
             "azure_tts",

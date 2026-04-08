@@ -19,11 +19,9 @@ elif platform.system() == 'Darwin':
     FONT_NAME = 'Arial Unicode MS'
     TRANS_FONT_NAME = 'Arial Unicode MS'
 
-SRC_FONT_COLOR = '&HFFFFFF'
 SRC_OUTLINE_COLOR = '&H000000'
 SRC_OUTLINE_WIDTH = 1
 SRC_SHADOW_COLOR = '&H80000000'
-TRANS_FONT_COLOR = '&HFFFF00'
 TRANS_OUTLINE_COLOR = '&H000000'
 TRANS_OUTLINE_WIDTH = 1 
 TRANS_BACK_COLOR = '&H33000000'
@@ -41,8 +39,20 @@ def check_gpu_available():
         return False
 
 def merge_subtitles_to_video():
+    def rgb_to_ass_bgr(hex_color):
+        h = hex_color.lstrip('#')
+        return f'&H{h[4:6]}{h[2:4]}{h[0:2]}'
+
     video_file = find_video_files()
     os.makedirs(os.path.dirname(OUTPUT_VIDEO), exist_ok=True)
+    try:
+        src_font_color = rgb_to_ass_bgr(load_key("subtitle.src_font_color"))
+    except KeyError:
+        src_font_color = '&HFFFFFF'
+    try:
+        trans_font_color = rgb_to_ass_bgr(load_key("subtitle.trans_font_color"))
+    except KeyError:
+        trans_font_color = '&HFFFF00'
 
     # Check resolution
     if not load_key("burn_subtitles"):
@@ -73,10 +83,10 @@ def merge_subtitles_to_video():
             f"scale={TARGET_WIDTH}:{TARGET_HEIGHT}:force_original_aspect_ratio=decrease,"
             f"pad={TARGET_WIDTH}:{TARGET_HEIGHT}:(ow-iw)/2:(oh-ih)/2,"
             f"subtitles={SRC_SRT}:force_style='FontSize={SRC_FONT_SIZE},FontName={FONT_NAME}," 
-            f"PrimaryColour={SRC_FONT_COLOR},OutlineColour={SRC_OUTLINE_COLOR},OutlineWidth={SRC_OUTLINE_WIDTH},"
+            f"PrimaryColour={src_font_color},OutlineColour={SRC_OUTLINE_COLOR},OutlineWidth={SRC_OUTLINE_WIDTH},"
             f"ShadowColour={SRC_SHADOW_COLOR},BorderStyle=1',"
             f"subtitles={TRANS_SRT}:force_style='FontSize={TRANS_FONT_SIZE},FontName={TRANS_FONT_NAME},"
-            f"PrimaryColour={TRANS_FONT_COLOR},OutlineColour={TRANS_OUTLINE_COLOR},OutlineWidth={TRANS_OUTLINE_WIDTH},"
+            f"PrimaryColour={trans_font_color},OutlineColour={TRANS_OUTLINE_COLOR},OutlineWidth={TRANS_OUTLINE_WIDTH},"
             f"BackColour={TRANS_BACK_COLOR},Alignment=2,MarginV=27,BorderStyle=4'"
         ).encode('utf-8'),
     ]
