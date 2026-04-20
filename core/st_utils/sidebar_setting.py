@@ -48,7 +48,7 @@ def _search_models(search_term, **kwargs):
 def page_setting():
     # Widen the sidebar slightly to accommodate the model searchbox
     st.markdown(
-        """<style>[data-testid="stSidebar"] {min-width: 420px; max-width: 420px; background-color: #121212;}</style>""",
+        """<style>[data-testid="stSidebar"] {min-width: 420px; max-width: 420px; background-color: #fffaeb;}</style>""",
         unsafe_allow_html=True,
     )
 

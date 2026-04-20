@@ -16,11 +16,14 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-SPOTIFY_CSS = """
+MISTRAL_CSS = """
 <style>
 /* ── Global base ── */
 .stApp {
-    background-color: #121212;
+    background-color: #fffaeb;
+}
+[data-testid="stMainBlockContainer"] {
+    max-width: 80%;
 }
 .stApp > header {
     background-color: transparent;
@@ -28,27 +31,27 @@ SPOTIFY_CSS = """
 
 /* ── Sidebar ── */
 [data-testid="stSidebar"] {
-    background-color: #121212;
-    border-right: 1px solid #1f1f1f;
+    background-color: #fffaeb;
+    border-right: 1px solid #ffd06a;
 }
 [data-testid="stSidebar"] .stMarkdown, [data-testid="stSidebar"] label {
-    color: #b3b3b3;
+    color: #1f1f1f;
     font-size: 0.88rem;
 }
 [data-testid="stSidebar"] .stMarkdown p, [data-testid="stSidebar"] .stMarkdown span {
-    color: #b3b3b3;
+    color: #1f1f1f;
 }
 
 /* ── Containers & cards ── */
 [data-testid="stSidebar"] [data-testid="stExpander"] {
-    background-color: #181818;
-    border-radius: 8px;
+    background-color: #fff0c2;
+    border-radius: 0px;
     border: none;
-    box-shadow: rgba(0,0,0,0.3) 0px 8px 8px;
+    box-shadow: rgba(127, 99, 21, 0.12) -8px 16px 39px, rgba(127, 99, 21, 0.1) -33px 64px 72px;
 }
 [data-testid="stSidebar"] [data-testid="stExpander"] summary {
-    color: #ffffff;
-    font-weight: 700;
+    color: #1f1f1f;
+    font-weight: 400;
     font-size: 0.88rem;
 }
 [data-testid="stSidebar"] [data-testid="stExpander"] [data-testid="stExpanderDetails"] {
@@ -57,96 +60,96 @@ SPOTIFY_CSS = """
 
 /* ── Main content containers with border ── */
 [data-testid="stMainBlockContainer"] [data-testid="stVerticalBlock"] > [style*="border"] {
-    border-color: #1f1f1f !important;
-    background-color: #181818;
-    border-radius: 8px;
+    border-color: #ffd06a !important;
+    background-color: #fff0c2;
+    border-radius: 0px;
 }
 
 /* ── Inputs ── */
 .stTextInput > div > div > input {
-    background-color: #1f1f1f;
-    color: #ffffff;
-    border-radius: 500px;
+    background-color: #ffffff;
+    color: #1f1f1f;
+    border-radius: 0px;
     border: none;
-    box-shadow: rgb(18,18,18) 0px 1px 0px, rgb(124,124,124) 0px 0px 0px 1px inset;
+    box-shadow: #fffaeb 0px 1px 0px, rgba(127, 99, 21, 0.2) 0px 0px 0px 1px inset;
 }
 .stTextInput > div > div > input:focus {
-    border-color: #000000;
-    box-shadow: rgb(18,18,18) 0px 1px 0px, rgb(124,124,124) 0px 0px 0px 1px inset;
+    border-color: #fa520f;
+    box-shadow: #fffaeb 0px 1px 0px, #fa520f 0px 0px 0px 2px inset;
 }
 .stTextInput > div > label {
-    color: #b3b3b3;
+    color: #1f1f1f;
     font-size: 0.88rem;
 }
 
 /* ── Select boxes ── */
 .stSelectbox > div > div > div {
-    background-color: #1f1f1f;
-    color: #ffffff;
-    border-radius: 500px;
+    background-color: #ffffff;
+    color: #1f1f1f;
+    border-radius: 0px;
     border: none;
 }
 .stSelectbox > div > label {
-    color: #b3b3b3;
+    color: #1f1f1f;
     font-size: 0.88rem;
 }
 
 /* ── Progress bar ── */
 .stProgress > div > div > div > div {
-    background-color: #1ed760;
+    background-color: #fa520f;
 }
 
 /* ── Toggles ── */
 .stToggle button[aria-checked="true"] {
-    background-color: #1ed760;
+    background-color: #fa520f;
 }
 
 /* ── Headings ── */
 h1, h2, h3 {
-    color: #ffffff;
-    font-weight: 700;
+    color: #1f1f1f;
+    font-weight: 400;
 }
 .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 {
-    color: #ffffff;
+    color: #1f1f1f;
 }
 
 /* ── Alert boxes ── */
 .stAlert {
-    border-radius: 8px;
+    border-radius: 0px;
 }
 div[data-testid="stAlert"] > div {
-    color: #ffffff;
+    color: #1f1f1f;
 }
 
 /* ── Video player ── */
 .stVideo {
-    border-radius: 8px;
+    border-radius: 0px;
     overflow: hidden;
-    box-shadow: rgba(0,0,0,0.5) 0px 8px 24px;
+    box-shadow: rgba(127, 99, 21, 0.12) -8px 16px 39px, rgba(127, 99, 21, 0.1) -33px 64px 72px;
 }
 
 /* ── File uploader ── */
 [data-testid="stFileUploader"] {
-    border: 1px dashed #4d4d4d;
-    border-radius: 8px;
-    background-color: #181818;
+    border: 1px dashed #ffa110;
+    border-radius: 0px;
+    background-color: #fff0c2;
 }
 
 /* ── Section text styling ── */
 .section-desc {
-    color: #b3b3b3;
+    color: #1f1f1f;
     font-size: 0.88rem;
     line-height: 1.5;
 }
 
 /* ── Welcome text ── */
 .welcome-text {
-    color: #b3b3b3;
+    color: #1f1f1f;
     font-size: 0.88rem;
     line-height: 1.5;
 }
 .welcome-text a {
-    color: #1ed760;
+    color: #fa520f;
     text-decoration: none;
 }
 .welcome-text a:hover {
@@ -155,16 +158,16 @@ div[data-testid="stAlert"] > div {
 
 /* ── Color picker ── */
 .stColorPicker > div > label {
-    color: #b3b3b3;
+    color: #1f1f1f;
     font-size: 0.88rem;
 }
 
 /* ── Toast notifications ── */
 .stToast {
-    background-color: #1f1f1f;
-    border-radius: 8px;
-    box-shadow: rgba(0,0,0,0.5) 0px 8px 24px;
-    color: #ffffff;
+    background-color: #fff0c2;
+    border-radius: 0px;
+    box-shadow: rgba(127, 99, 21, 0.12) -8px 16px 39px, rgba(127, 99, 21, 0.1) -33px 64px 72px;
+    color: #1f1f1f;
 }
 
 /* ── Scrollbar ── */
@@ -172,18 +175,18 @@ div[data-testid="stAlert"] > div {
     width: 8px;
 }
 ::-webkit-scrollbar-track {
-    background: #121212;
+    background: #fffaeb;
 }
 ::-webkit-scrollbar-thumb {
-    background: #4d4d4d;
-    border-radius: 9999px;
+    background: #ffd06a;
+    border-radius: 0px;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #7c7c7c;
+    background: #ffa110;
 }
 </style>
 """
-st.markdown(SPOTIFY_CSS, unsafe_allow_html=True)
+st.markdown(MISTRAL_CSS, unsafe_allow_html=True)
 
 SUB_VIDEO = "output/output_sub.mp4"
 DUB_VIDEO = "output/output_dub.mp4"
@@ -412,7 +415,7 @@ def audio_processing_section():
 def main():
     logo_col, _ = st.columns([1, 1])
     with logo_col:
-        st.image("docs/logo_dark_mode.png", width="stretch")
+        st.image("docs/logo.png", width="stretch")
     st.markdown(button_style, unsafe_allow_html=True)
     welcome_text = t(
         'Hello, welcome to VideoLingo. If you encounter any issues, feel free to get instant answers with our Free QA Agent <a href="https://share.fastgpt.in/chat/share?shareId=066w11n3r9aq6879r4z0v9rh" target="_blank">here</a>! You can also try out our SaaS website at <a href="https://videolingo.io" target="_blank">videolingo.io</a> for free!'
